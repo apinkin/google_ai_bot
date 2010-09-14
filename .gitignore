@@ -1,0 +1,5 @@
+my_planet_wars.*
+planetwars/*.pyc
+*.class
+*.log
+log.txt
