@@ -3,3 +3,5 @@ planetwars/*.pyc
 *.class
 *.log
 log.txt
+visualizer/generated.htm
+*.bak

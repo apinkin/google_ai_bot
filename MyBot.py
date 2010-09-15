@@ -10,19 +10,25 @@ log = getLogger(__name__)
 # DONE send only if my planet is not endangered
 # DONE defense first
 # DONE neutral planets close distance only
+# BUG D bug - sometimes bailing before impact..
+# BUG sudden losses to bully and random (1-2 turns?)
+# BUG sending multiple attacks due to shorter distance than fleet in flight
+# Pre-calc all endangered, required re-inforcements and ships to spair
+# Test performance with many fleets in flight
 class MyBot(BaseBot):
 
-    def endangered(self, p, threshold):
-        maxdist = -1
-        attackers = p.attacking_fleets
-        if len(attackers) == 0:
-            return (False,0)
-        for a in attackers:
-            maxdist = max(maxdist,a.turns_remaining)
+    def max_turns_remaining(self, fleets):
+        ret = -1
+        for fleet in fleets:
+            ret = max(ret, fleet.turns_remaining)
+        return ret
 
-        reinforcements = p.reinforcement_fleets
-        for r in reinforcements:
-            maxdist = max(maxdist,r.turns_remaining)
+    def endangered(self, p, threshold):
+        if len(p.attacking_fleets) == 0:
+            return (False,0)
+
+        maxdist = self.max_turns_remaining(p.attacking_fleets | p.reinforcement_fleets)
+        #maxdist = self.max_turns_remaining(p.attacking_fleets)
 
         fp = p.in_future(maxdist)
 
@@ -35,32 +41,36 @@ class MyBot(BaseBot):
     def do_turn(self):
         log.info("I'm starting my turn")
 
-        log.info("Defense")
         mp = self.universe.my_planets
-        if len(mp) > 0:
-            for dest in mp:
-                se = self.endangered(dest, 0)
-                if se[0]:
-                    ships_needed = se[1]
-                    msp = sorted(self.universe.my_planets, key=lambda p : p.distance(dest))
+        if len(mp) == 0:
+            return
 
-                    for source in msp:
-                        if source.id != dest.id and ships_needed <= source.ship_count and (not self.endangered(source, source.ship_count - ships_needed)):
-                            source.send_fleet(dest, ships_needed)
-                            break
+        log.info("Defense")
+        for dest in mp:
+            se = self.endangered(dest, 0)
+            if se[0]:
+                ships_needed = se[1]
+                msp = sorted(self.universe.my_planets, key=lambda p : p.distance(dest))
+
+                for source in msp:
+                    if source.id != dest.id and ships_needed > 0 and ships_needed <= source.ship_count and (not self.endangered(source, source.ship_count - ships_needed)[0]):
+                        source.send_fleet(dest, ships_needed)
+                        break
 
         log.info("Offense")
         ewp = self.universe.weakest_planets(player.NOT_ME,10)
         if len(ewp) > 0:
             for dest in ewp:
-                #msp = self.universe.my_strongest_planets(10)
                 msp = sorted(self.universe.my_planets, key=lambda p : p.distance(dest))
                 for source in msp:
                     dist = source.distance(dest)
                     if dest.owner == player.NOBODY and len(self.universe.enemy_planets) > 0 and dist > (dest.distance(self.universe.enemies_strongest_planet)*1.2):
                         continue
 
-                    fdest = dest.in_future(dist)
+                    dest_dist = dist
+                    #dest_dist = max(dist, self.max_turns_remaining(dest.attacking_fleets | dest.reinforcement_fleets))
+                    #dest_dist = max(dist, self.max_turns_remaining(dest.reinforcement_fleets))
+                    fdest = dest.in_future(dest_dist)
                     ships_needed = fdest.ship_count + 1
                     if fdest.owner != player.ME and ships_needed <= source.ship_count and (not self.endangered(source, source.ship_count - ships_needed)[0]):
                         source.send_fleet(dest, ships_needed)
