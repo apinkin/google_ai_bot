@@ -2,93 +2,105 @@ from planetwars import BaseBot, Game
 from planetwars.universe2 import Universe2
 from planetwars.planet2 import Planet2
 from planetwars.universe import player
-from logging import getLogger
+from logging import getLogger, sys
 import copy
 from copy import copy
 
 log = getLogger(__name__)
 
-# DONE send as many ships as needed
-# DONE send only if my planet is not endangered
-# DONE defense first
-# DONE neutral planets close distance only
-# DONE BUG D bug - sometimes bailing right before impact..
-# DONE Don't attack neutrals too close to enemies (dual 98)
-# Detect enemy attacks on neutral planets we can intercept
-# BUG sending multiple attacks due to shorter distance than fleet in flight
-# Pre-calc all endangered, required re-inforcements and ships to spair
-# Test performance with many fleets in flight
+# DONE Defend most important planets first!
+# Try to steal neutrals
+# Move ships to the front lines!
+# Slow growth if enemy home nearby ?
 class MyBot(BaseBot):
 
     def closest_enemy_planet_distance(self, p):
-        ret = 1000000
-        for ep in self.universe.enemy_planets:
-            ret = min(ret, ep.distance(p))
-        return ret
+        return min((lambda ep:ep.distance(p))(ep) for ep in self.universe.enemy_planets)
 
     def max_turns_remaining(self, fleets):
-        ret = -1
-        for fleet in fleets:
-            ret = max(ret, fleet.turns_remaining)
-        return ret
+        return -1 if len(fleets) == 0 else max((lambda f:f.turns_remaining)(f) for f in fleets)
 
-    def endangered(self, p, ship_count):
-        #log.info("Called Endangered for %s with %s" % (p,ship_count))
-        if len(p.attacking_fleets) == 0:
-            return (False,0)
-
-        maxdist = self.max_turns_remaining(p.attacking_fleets | p.reinforcement_fleets)
-        #maxdist = self.max_turns_remaining(p.attacking_fleets)
-
-        current_ship_count = p.ship_count
-        p.ship_count = ship_count
-        fp = p.in_future(maxdist)
-        p.ship_count = current_ship_count
-
-        #log.info("in Endangered for %s with %s" % (p,ship_count))
-        if fp.owner != player.ME:
-            log.info("Endangered %s" % p)
-            return (True, fp.ship_count)
-        else:
-            return (False,0)
+    def calc_home_dist(self):
+        if self.universe.game.turn_count == 1:
+            for p in self.universe.my_planets:
+                self.my_home = p
+            for p in self.universe.enemy_planets:
+                self.enemy_home = p
+            self.home_dist = self.my_home.distance(self.enemy_home)
 
     def do_turn(self):
-        log.info("I'm starting my turn")
+        log.info("I'm starting my turn %s" % self.universe.game.turn_count)
 
-        mp = self.universe.my_planets
-        if len(mp) == 0:
+        my_planets = self.universe.my_planets
+        if len(my_planets) == 0:
             return
 
-        log.info("Defense")
-        for dest in mp:
-            se = self.endangered(dest, dest.ship_count)
-            if se[0]:
-                ships_needed = se[1]
-                msp = sorted(self.universe.my_planets, key=lambda p : p.distance(dest))
+        log.info("Prep phase")
+        # estimate how many ships are available for each of my planets
+        ships_available = {}
+        ships_needed = {}
+        for planet in my_planets:
+            if len(planet.attacking_fleets) == 0:
+                ships_available[planet] = planet.ship_count
+                ships_needed[planet] = int(0)
+            else:
+                simulation_distance = self.max_turns_remaining(planet.attacking_fleets | planet.reinforcement_fleets)
+                planet_future = planet.in_future(simulation_distance)
+                if planet_future.owner != player.ME:
+                    # do we bail if we are going to lose this planet anyway?
+                    ships_available[planet] = 0
+                    ships_needed[planet] = planet_future.ship_count
+                else:
+                    ships_available[planet] = planet_future.ship_count
+                    ships_needed[planet] = 0
+        #log.info("ships_available %s" % ships_available)
+        #log.info("ships_needed %s" % ships_needed)
 
-                for source in msp:
-                    if source.id != dest.id and ships_needed > 0 and ships_needed <= source.ship_count and (not self.endangered(source, source.ship_count - ships_needed)[0]):
-                        source.send_fleet(dest, ships_needed)
-                        break
 
-        log.info("Offense")
-        ewp = self.universe.weakest_planets(player.NOT_ME,10)
-        if len(ewp) > 0:
-            for dest in ewp:
-                msp = sorted(self.universe.my_planets, key=lambda p : p.distance(dest))
-                for source in msp:
-                    dist = source.distance(dest)
-                    if dest.owner == player.NOBODY and len(self.universe.enemy_planets) > 0 and dist > (self.closest_enemy_planet_distance(dest)*1.2):
-                        continue
+        log.info("Defense phase")
+        prioritized_planets_to_defend = sorted(self.universe.my_planets, key=lambda p : p.growth_rate, reverse=True)
+        for planet_to_defend in prioritized_planets_to_defend:
+            if ships_needed[planet_to_defend] > 0:
+                current_ships_needed = ships_needed[planet_to_defend]
+                log.info("Planet %s needs %s ships!" % (planet_to_defend, current_ships_needed))
+                # send reinforcements from closest planets
+                my_closest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_defend))
 
-                    dest_dist = dist
-                    #dest_dist = max(dist, self.max_turns_remaining(dest.attacking_fleets | dest.reinforcement_fleets))
-                    #dest_dist = max(dist, self.max_turns_remaining(dest.reinforcement_fleets))
-                    fdest = dest.in_future(dest_dist)
-                    ships_needed = fdest.ship_count + 1
-                    if fdest.owner != player.ME and ships_needed < source.ship_count and (not self.endangered(source, source.ship_count - ships_needed)[0]):
-                        source.send_fleet(dest, ships_needed)
-                        break
+                for source in my_closest_planets:
+                    if source.id != planet_to_defend.id and ships_available[source] > 0:
+                        ships_to_send = min(current_ships_needed, ships_available[source])
+                        source.send_fleet(planet_to_defend, ships_to_send)
+                        ships_available[source] -= ships_to_send
+                        ships_needed[planet_to_defend] -= ships_to_send
+                        current_ships_needed -= ships_to_send
+                        if current_ships_needed <= 0:
+                            break
+
+        log.info("Offense phase")
+        weakest_planets = self.universe.weakest_planets(player.NOT_ME,10)
+        if len(weakest_planets) == 0:
+            return
+            
+        for planet_to_attack in weakest_planets:
+            #log.info("Evaluating attack on %s" % planet_to_attack)
+            my_nearest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_attack))
+            for source in my_nearest_planets:
+                if ships_available[source] <= 0:
+                    continue
+                attack_distance = source.distance(planet_to_attack)
+                if planet_to_attack.owner == player.NOBODY and len(self.universe.enemy_planets) > 0 and attack_distance > (self.closest_enemy_planet_distance(planet_to_attack)*1.2):
+                    continue
+
+                simulation_distance = attack_distance
+                if planet_to_attack.owner == player.NOBODY:
+                    simulation_distance = max(attack_distance, self.max_turns_remaining(planet_to_attack.attacking_fleets))
+                planet_to_attack_future = planet_to_attack.in_future(simulation_distance)
+                current_ships_needed = planet_to_attack_future.ship_count + 1
+                # we currently attack from a single planet within one move
+                if planet_to_attack_future.owner != player.ME and current_ships_needed <= ships_available[source]:
+                    source.send_fleet(planet_to_attack, current_ships_needed)
+                    ships_available[source] -= current_ships_needed
+                    break
 
 
 

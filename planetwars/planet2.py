@@ -25,8 +25,8 @@ class Planet2(Planet):
                 if PLAYER_MAP[id] == planet.owner:
                     count += planet.ship_count
 
-                if count > 0:
-                    ships.append({'player':PLAYER_MAP.get(id), 'ships':count})
+#                if count > 0:
+                ships.append({'player':PLAYER_MAP.get(id), 'ships':count})
 
             # neutral planet has own fleet
             if planet.owner == player.NOBODY:
@@ -46,4 +46,3 @@ class Planet2(Planet):
                     planet.ship_count=winner['ships'] - second['ships']
 
         return planet
-
