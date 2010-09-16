@@ -30,6 +30,7 @@
           
           maps_played=`expr $maps_played + 1`
 
+          #echo "Map played: $i --- Winner: $RES2"
        done
        player_2_turn_counter=`expr $player_2_turn_counter / $maps_played`
        player_1_turn_counter=`expr $player_1_turn_counter / $maps_played`
