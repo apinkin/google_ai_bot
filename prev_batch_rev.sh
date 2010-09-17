@@ -13,7 +13,7 @@
        echo "Bot: $file"
        for i in {1..100}
        do
-          RES=`java -jar tools/PlayGame.jar maps/map$i.txt 200 200 log.txt "python $file" "python MyBot.py" 2>&1 | tail -n 3 | grep "Turn\|Player"`
+          RES=`java -jar tools/PlayGame.jar maps/map$i.txt 200 200 log.txt "python MyBot.py" "python $file" 2>&1 | tail -n 3 | grep "Turn\|Player"`
 
           TURN=`echo $RES | grep -i turn | sed 's/.*urn \([0-9]*\).*/\1/'`
 
