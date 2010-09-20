@@ -122,6 +122,7 @@
                 System.err.println(e.getMessage());
             }
 
+            bot.destroy();
 
             // TODO: collect the enemy name, win/lose stats
             //System.out.println(enemy + "|" + win + "|" + turns);

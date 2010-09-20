@@ -4,11 +4,13 @@ from copy import copy
 import player
 
 class Planet2(Planet):
-    def in_future(self, turns=1):
+    def in_future(self, turns=1, fleet=None ):
         """Calculates state of planet in `turns' turns."""
         planet = copy(self)
 
         arriving_fleets = self.universe.find_fleets(destination=self)
+        if fleet != None:
+            arriving_fleets |= fleet
 
         for i in range(1, turns+1):
             # account planet growth

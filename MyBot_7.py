@@ -8,15 +8,10 @@ from copy import copy
 
 log = getLogger(__name__)
 
-ATTACK_PROXIMITY_RATIO = 1.2
-
+# DONE Defend most important planets first!
 # Try to steal neutrals
-# Is multi-attack worth it?
 # Move ships to the front lines!
-# Slow growth if enemy home nearby
-# Smart calculation if to attack neutral (can enemy steal it without losing)
-# Strategy adjustment depending on my vs enemy ship count/production
-
+# Slow growth if enemy home nearby ?
 class MyBot(BaseBot):
 
     def closest_enemy_planet_distance(self, p):
