@@ -1,299 +1,100 @@
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
-
-taskkill /IM python.exe /F
-java TCP "72.44.46.68" "995" "buggy" "python MyBot.py --log 1.log" "10000"
-TIMEOUT /T 51
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
+java TCP "ec2-72-44-46-51.compute-1.amazonaws.com" "143" "rebelxt74" "python MyBot.py --log MyBot.log" "10000"
