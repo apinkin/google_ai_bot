@@ -4,13 +4,11 @@ from copy import copy
 import player
 
 class Planet2(Planet):
-    def in_future(self, turns=1, fleet=None ):
+    def in_future(self, turns=1):
         """Calculates state of planet in `turns' turns."""
         planet = copy(self)
 
         arriving_fleets = self.universe.find_fleets(destination=self)
-        if fleet != None:
-            arriving_fleets |= fleet
 
         for i in range(1, turns+1):
             # account planet growth
@@ -28,7 +26,7 @@ class Planet2(Planet):
                     count += planet.ship_count
 
 #                if count > 0:
-                ships.append({'player':PLAYER_MAP.get(id), 'ships':count})
+                    ships.append({'player':PLAYER_MAP.get(id), 'ships':count})
 
             # neutral planet has own fleet
             if planet.owner == player.NOBODY:
@@ -48,3 +46,4 @@ class Planet2(Planet):
                     planet.ship_count=winner['ships'] - second['ships']
 
         return planet
+

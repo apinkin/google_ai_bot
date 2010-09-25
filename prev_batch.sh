@@ -1,5 +1,5 @@
 #!/bin/bash
-    for file in MyBot_7.py
+    for file in MyBot_805.py
 
     do
        player_1_counter=0
@@ -13,7 +13,7 @@
        echo "Bot: $file"
        for i in {1..100}
        do
-          RES=`java -jar tools/PlayGame.jar maps/map$i.txt 200 200 log.txt "python $file --log old.log" "python MyBot_73.py --log current.log" 2>&1 | tail -n 3 | grep "Turn\|Player"`
+          RES=`java -jar tools/PlayGame.jar maps/map$i.txt 200 200 log.txt "python $file --log old.log" "python MyBot.py --log current.log" 2>&1 | tail -n 3 | grep "Turn\|Player"`
 
           TURN=`echo $RES | grep -i turn | sed 's/.*urn \([0-9]*\).*/\1/'`
 

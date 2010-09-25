@@ -1,15 +1,10 @@
 from planetwars import BaseBot, Game
 from planetwars.universe2 import Universe2
-from planetwars.planet import Planet
 from planetwars.planet2 import Planet2
 from planetwars.universe import player, Fleet
 from logging import getLogger, sys
 import copy
 from copy import copy
-import planetwars.planet
-import planetwars.planet
-import time
-import random
 
 log = getLogger(__name__)
 
@@ -33,11 +28,9 @@ class MyBot(BaseBot):
     def average_enemy_planet_distance(self, p):
         distance_sum = sum( [ planet.distance(p) for planet in self.universe.enemy_planets ] )
         if len(self.universe.enemy_planets) == 0:
-            return -1
+            return -1;
         return distance_sum/len(self.universe.enemy_planets)
 
-    def com_enemy_planet_distance(self, p):
-        return self.enemy_com.distance(p)
 
     def closest_my_planet_distance(self, p):
         return min((lambda mp:mp.distance(p))(mp) for mp in self.universe.my_planets)
@@ -67,7 +60,7 @@ class MyBot(BaseBot):
             if planet_to_attack_future.owner == player.ME:
                 continue
 
-            my_nearest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_attack) + p.id/1000000.0)
+            my_nearest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_attack))
             for source in my_nearest_planets:
                 log.info("Score eval source %s" % source)
                 distance = source.distance(planet_to_attack)
@@ -90,7 +83,7 @@ class MyBot(BaseBot):
                         break
                 if planet_score[planet_to_attack] > 0:
                     break
-        sorted_planets = sorted(self.universe.not_my_planets, key=lambda p : planet_score[p] + p.id/1000000.0, reverse=True)
+        sorted_planets = sorted(self.universe.not_my_planets, key=lambda p : planet_score[p], reverse=True)
         result = sorted_planets[:count] if count < len(sorted_planets) else sorted_planets
         filtered_result = []
         for p in result:
@@ -105,7 +98,7 @@ class MyBot(BaseBot):
 
     def weakest_not_my_planets_distance_based(self, count=1):
         sorted_planets = sorted(self.universe.not_my_planets, \
-          key=lambda p : (1.0+p.growth_rate)/(1.0+p.ship_count)/self.closest_my_planet_distance(p)+p.id/1000000.0, reverse=True)
+          key=lambda p : (1.0+p.growth_rate)/(1.0+p.ship_count)/self.closest_my_planet_distance(p), reverse=True)
         return sorted_planets[:count] if count < len(sorted_planets) else sorted_planets
 
     def total_fleet_count_enroute(self, owner, planet):
@@ -126,7 +119,7 @@ class MyBot(BaseBot):
 
     def weakest_not_my_planets_effective(self, count=1):
         sorted_planets = sorted(self.universe.not_my_planets, \
-          key=lambda p : (1.0+p.growth_rate)/(1.0+p.ship_count-self.total_fleet_count_enroute(player.ME, p)+self.total_fleet_count_enroute(player.NOT_ME, p)) + p.id/1000000.0, reverse=True)
+          key=lambda p : (1.0+p.growth_rate)/(1.0+p.ship_count-self.total_fleet_count_enroute(player.ME, p)+self.total_fleet_count_enroute(player.NOT_ME, p)), reverse=True)
         return sorted_planets[:count] if count < len(sorted_planets) else sorted_planets
 
     def invert_owner(self, owner):
@@ -175,32 +168,19 @@ class MyBot(BaseBot):
         self.my_total_ships += self.total_fleet_ship_count(player.ME)
         self.enemy_total_ships += self.total_fleet_ship_count(player.NOT_ME)
 
-        # calculate enemy's center of mass
-        weighted_x = 0
-        weighted_y = 0
-        div = 0
-        for planet in self.universe.enemy_planets:
-            weighted_x += planet.position.x * planet.ship_count
-            weighted_y += planet.position.y * planet.ship_count
-            div += planet.ship_count
-        if div == 0:
-            div = 1
-
-        self.enemy_com = Planet(self.universe, 666, weighted_x/div, weighted_y/div, 2, 0, 0)
-
         log.info("MY STATUS: %s/%s - %s available" % (self.my_total_ships, self.my_total_growth_rate, self.my_total_ships_available))
         log.info("ENEMY STATUS: %s/%s - %s available" % (self.enemy_total_ships, self.enemy_total_growth_rate, self.enemy_total_ships_available))
-        log.info("ENEMY COM: %s, %s" % (self.enemy_com.position.x, self.enemy_com.position.y))
+
 
     def doDefense(self):
         log.info("Defense phase")
-        prioritized_planets_to_defend = sorted(self.universe.my_planets, key=lambda p : p.growth_rate + p.id/1000000.0, reverse=True)
+        prioritized_planets_to_defend = sorted(self.universe.my_planets, key=lambda p : p.growth_rate, reverse=True)
         for planet_to_defend in prioritized_planets_to_defend:
             if self.ships_needed[planet_to_defend] > 0:
                 current_ships_needed = self.ships_needed[planet_to_defend]
                 log.info("Planet %s needs %s ships!" % (planet_to_defend, current_ships_needed))
                 # send reinforcements from closest planets
-                my_closest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_defend) + p.id/1000000.0)
+                my_closest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_defend))
 
                 for source in my_closest_planets:
                     if source.id != planet_to_defend.id and self.ships_available[source] > 0:
@@ -219,11 +199,11 @@ class MyBot(BaseBot):
         #weakest_planets = self.weakest_not_my_planets_effective(10)
         #weakest_planets = self.get_best_planets_to_attack(10,30,100)
         weakest_planets = self.weakest_not_my_planets_distance_based(10)
-        #log.info("Weakest planets: %s" % weakest_planets)
+        log.info("Weakest planets: %s" % weakest_planets)
 
         for planet_to_attack in weakest_planets:
             #log.info("Evaluating attack on %s" % planet_to_attack)
-            my_nearest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_attack) + p.id/1000000.0)
+            my_nearest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_attack))
             for source in my_nearest_planets:
                 if self.ships_available[source] <= 0:
                     continue
@@ -252,27 +232,18 @@ class MyBot(BaseBot):
 
     def doPostOffense(self):
         log.info("Post-Offense phase")
-        if len(self.universe.enemy_planets) == 0:
-            return
-
-        # cache closest and com enemy planet distances
-        closest_enemy_planet_distance_map = {}
-        com_enemy_planet_distance_map = {}
-        for planet in self.universe.my_planets:
-            closest_enemy_planet_distance_map[planet] = self.closest_enemy_planet_distance(planet)
-            com_enemy_planet_distance_map[planet] = self.com_enemy_planet_distance(planet)
-
         for source_planet in self.universe.my_planets:
             if self.ships_available[source_planet] > 0:
-                log.info("Post-Offense for %s" % source_planet)
-                my_nearest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(source_planet) +  p.id/1000000.0)
+                my_nearest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(source_planet))
                 for dest_planet in my_nearest_planets:
                     distance = source_planet.distance(dest_planet)
-                    if distance > 0 and closest_enemy_planet_distance_map[dest_planet] <= closest_enemy_planet_distance_map[source_planet]:
-                        if com_enemy_planet_distance_map[dest_planet] < com_enemy_planet_distance_map[source_planet]:
+                    if distance > 0 and self.closest_enemy_planet_distance(dest_planet) <= self.closest_enemy_planet_distance(source_planet):
+                        #log.info("Check 1 avg dest %s, avg src %s" % (self.average_enemy_planet_distance(dest_planet),self.average_enemy_planet_distance(source_planet)))
+                        if self.average_enemy_planet_distance(dest_planet) < self.average_enemy_planet_distance(source_planet):
                             source_planet.send_fleet(dest_planet, self.ships_available[source_planet])
                             self.ships_available[source_planet] = 0
                             break
+
 
 
     def do_turn(self):
