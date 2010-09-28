@@ -51,6 +51,9 @@ class MyBot(BaseBot):
     def enemy_fleets_attacking(self, planet):
         return sum( [ 1 for fleet in planet.attacking_fleets if fleet.owner in player.NOT_ME ] )
 
+    def my_fleets_attacking(self, planet):
+        return sum( [ 1 for fleet in planet.attacking_fleets if fleet.owner == player.ME] )
+
     def calc_home_dist(self):
         self.my_home = list(self.universe.my_planets)[0]
         self.enemy_home = list(self.universe.enemy_planets)[0]
@@ -82,11 +85,15 @@ class MyBot(BaseBot):
                 if planet_to_attack_future.owner != player.ME:
                     continue
 
-                for ships_to_send in range(1, self.ships_available[source]+1, 10):
+                min_ships_to_send = 1
+                if len(planet_to_attack.attacking_fleets) == 0:
+                    min_ships_to_send = planet_to_attack.ship_count+1
+
+                for ships_to_send in range(min_ships_to_send, self.ships_available[source]+1, 1):
                     fleet_to_send = Fleet(self.universe,12345,1, ships_to_send, source.id, planet_to_attack.id, distance, distance)
                     planet_to_attack_future = planet_to_attack.in_future(turns, fleet_to_send)
                     if planet_to_attack_future.owner == player.ME:
-                        planet_score[planet_to_attack] = planet_to_attack_future.ship_count - ships_to_send + prod_turns*planet_to_attack.growth_rate
+                        planet_score[planet_to_attack] = planet_to_attack_future.ship_count - ships_to_send + (prod_turns-distance)*planet_to_attack.growth_rate
                         break
                 if planet_score[planet_to_attack] > 0:
                     break
@@ -154,14 +161,23 @@ class MyBot(BaseBot):
                 self.ships_needed[planet] = 0
             else:
                 simulation_distance = self.max_turns_remaining(planet.attacking_fleets | planet.reinforcement_fleets)
-                planet_future = planet.in_future(simulation_distance)
-                #log.info("PLANET FUTURE %s %s in %s turns" % (planet_future, planet.owner, simulation_distance))
-                if planet_future.owner != planet.owner:
+                planet_timeline = planet.in_future_timeline(simulation_distance)
+                max_needed = 0
+                min_available = 1000000
+                log.info("timeline for %s: %s" % (planet, planet_timeline))
+                for step in planet_timeline:
+                    owner = step[0]
+                    ship_count = step[1]
+                    if owner != planet.owner:
+                        max_needed = max(max_needed, ship_count)
+                    else:
+                        min_available = min(min_available, ship_count)
+                if max_needed > 0:
                     # do we bail if we are going to lose this planet anyway?
                     self.ships_available[planet] = 0
-                    self.ships_needed[planet] = planet_future.ship_count
+                    self.ships_needed[planet] = max_needed
                 else:
-                    self.ships_available[planet] = max(0,planet_future.ship_count - planet.growth_rate * simulation_distance + self.effective_fleet_ship_count_enroute(planet.owner, planet))
+                    self.ships_available[planet] = min_available
                     self.ships_needed[planet] = 0
             if (planet.owner == player.ME):
                 self.my_total_ships_available += self.ships_available[planet]
@@ -171,6 +187,9 @@ class MyBot(BaseBot):
                 self.enemy_total_ships_available += self.ships_available[planet]
                 self.enemy_total_growth_rate += planet.growth_rate
                 self.enemy_total_ships += planet.ship_count
+            #log.info("avail ships for %s: %s" % (planet, self.ships_available[planet]))
+
+
 
         self.my_total_ships += self.total_fleet_ship_count(player.ME)
         self.enemy_total_ships += self.total_fleet_ship_count(player.NOT_ME)
@@ -180,9 +199,9 @@ class MyBot(BaseBot):
         weighted_y = 0
         div = 0
         for planet in self.universe.enemy_planets:
-            weighted_x += planet.position.x * planet.ship_count
-            weighted_y += planet.position.y * planet.ship_count
-            div += planet.ship_count
+            weighted_x += planet.position.x * self.ships_available[planet]
+            weighted_y += planet.position.y * self.ships_available[planet]
+            div += self.ships_available[planet]
         if div == 0:
             div = 1
 
@@ -217,18 +236,32 @@ class MyBot(BaseBot):
         log.info("Offense phase")
         #weakest_planets = self.universe.weakest_planets(player.NOT_ME,10)
         #weakest_planets = self.weakest_not_my_planets_effective(10)
-        #weakest_planets = self.get_best_planets_to_attack(10,30,100)
-        weakest_planets = self.weakest_not_my_planets_distance_based(10)
+        weakest_planets = self.get_best_planets_to_attack(10,15,40)
+        #weakest_planets = self.weakest_not_my_planets_distance_based(10)
         #log.info("Weakest planets: %s" % weakest_planets)
 
         for planet_to_attack in weakest_planets:
-            #log.info("Evaluating attack on %s" % planet_to_attack)
+            log.info("Evaluating attack on %s" % planet_to_attack)
             my_nearest_planets = sorted(self.universe.my_planets, key=lambda p : p.distance(planet_to_attack) + p.id/1000000.0)
             for source in my_nearest_planets:
                 if self.ships_available[source] <= 0:
                     continue
                 attack_distance = source.distance(planet_to_attack)
+
+                # see if we can steal
+                steal = False
+                if planet_to_attack.owner == player.NOBODY and self.enemy_fleets_attacking(planet_to_attack) == 1 and \
+                   self.my_fleets_attacking(planet_to_attack) == 0:
+                    enemy_fleet = list(self.universe.find_fleets(player.NOT_ME, destination = planet_to_attack))[0]
+                    if attack_distance == (enemy_fleet.turns_remaining+1) and self.ships_available[source]>=(planet_to_attack.growth_rate+2) and \
+                       enemy_fleet.ship_count == (planet_to_attack.ship_count+1):
+                        log.info("Need to steal %s, fleet inbound %s" % (planet_to_attack,enemy_fleet))
+                        steal = True
+                    else:
+                        continue
+
                 if planet_to_attack.owner == player.NOBODY and \
+                   steal == False and \
                    attack_distance > (self.closest_enemy_planet_distance(planet_to_attack) * ATTACK_PROXIMITY_RATIO):
                     continue
 
@@ -238,6 +271,7 @@ class MyBot(BaseBot):
                 planet_to_attack_future = planet_to_attack.in_future(simulation_distance)
                 current_ships_needed = planet_to_attack_future.ship_count + 1
                 # we currently attack from a single planet within one move
+                log.info("Future eval for %s is %s, simul dist %s" % (planet_to_attack_future.owner,current_ships_needed, simulation_distance))
                 if planet_to_attack_future.owner != player.ME:
                     if planet_to_attack.owner == player.NOBODY:
                         if current_ships_needed <= self.ships_available[source]:

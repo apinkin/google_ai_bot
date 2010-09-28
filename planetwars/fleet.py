@@ -13,7 +13,7 @@ class Fleet(object):
         self.turns_remaining = int(turns_remaining)
 
     def __repr__(self):
-        return "<F(%d) #%d %s -> %s ETA %d>" % (self.id, self.ship_count, self.source, self.destination, self.turns_remaining)
+        return "<F(%d) #%d %s -> %s ETA %d OWNER %s>" % (self.id, self.ship_count, self.source, self.destination, self.turns_remaining, self.owner)
 
 class Fleets(TypedSetBase):
     accepts = (Fleet, )
