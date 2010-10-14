@@ -63,7 +63,7 @@
   echo 'var data = "' . str_replace("\n", "\\n", $input) . '"';
   ?>
   </script>
-  <script src="js/visualizer.js?v=1"></script>
+  <script src="http://planetwars.zerd.net/visualizer.js"></script>
 
   <!--[if lt IE 7 ]>
     <script src="js/dd_belatedpng.js?v=1"></script>

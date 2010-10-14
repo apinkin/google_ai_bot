@@ -34,7 +34,7 @@
           fi
           
           maps_played=`expr $maps_played + 1`
-          #echo "map: $i - Winner: $RES2 - Turns: $TURN"
+          echo "map: $i - Winner: $RES2 - Turns: $TURN"
           #sleep 1
        done
        if [ "$player_2_counter" != "0" ] ; then

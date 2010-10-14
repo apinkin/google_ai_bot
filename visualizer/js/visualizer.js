@@ -7,6 +7,7 @@ var Visualizer = {
     frameDrawStarted: null,
     frameDrawEnded: null,
     players: ["Player A", "Player B"],
+    playerIds: ["-1", "-1"],
     planets: [],
     moves: [],
     dirtyRegions: [],
@@ -15,7 +16,6 @@ var Visualizer = {
       fleet_font: 'normal 12px Arial,Helvetica',
       planet_pixels: [10,13,18,21,23,29],
       showFleetText: true,
-      display_size: 640,
       display_margin: 50,
       turnsPerSecond: 8,
       teamColor: ['#455','#c00','#7ac']
@@ -31,7 +31,7 @@ var Visualizer = {
         this.parseData(data);
         
         // Calculated configs
-        this.config.unit_to_pixel = (this.config.display_size - this.config.display_margin * 2) / 24;
+        this.config.unit_to_pixel = (this.canvas.height - this.config.display_margin * 2) / 24;
         
         // Draw first frame
         this.drawFrame(0);        
@@ -256,6 +256,8 @@ var Visualizer = {
                     case "player_one": this.players[0] = value[1]; break;
                     case "player_two": this.players[1] = value[1]; break;
                     case "playback_string": data = value[1]; break;
+                    case "player_one_id": this.playerIds[0] = value[1]; break;
+                    case "player_two_id": this.playerIds[1] = value[1]; break;
                 }
             }
         }
@@ -282,11 +284,16 @@ var Visualizer = {
         var turns = data[1].split(':').slice(0,-1);
         for(var i = 0; i < turns.length; i++) {
             var turn = turns[i].split(',');
+            var move = {}
             
-            this.moves.push({
-               'planets': turn.slice(0, this.planets.length).map(ParserUtils.parsePlanetState),
-               'moving': turn.slice(this.planets.length).map(ParserUtils.parseFleet)
-            });
+            move.planets = turn.slice(0, this.planets.length).map(ParserUtils.parsePlanetState)
+            var fleet_strings = turn.slice(this.planets.length)
+            if( fleet_strings.length == 1 && fleet_strings[0] == '' ){
+                fleet_strings = []
+            }
+            move.moving = fleet_strings.map(ParserUtils.parseFleet)
+            
+            this.moves.push(move);
         }
     },
     
@@ -392,13 +399,13 @@ var ParserUtils = {
     })
     
     $('#display').bind('drawn', function(){
-      $('#turnCounter').html('Turn: '+Math.floor(Visualizer.frame+1)+' of '+Visualizer.moves.length)
+      $('#turnCounter').text('Turn: '+Math.floor(Visualizer.frame+1)+' of '+Visualizer.moves.length)
     })
     
-    $('.player1Name').text(Visualizer.players[0])
-    $('.player1Name').css('color',Visualizer.config.teamColor[1])
-    $('.player2Name').text(Visualizer.players[1])
-    $('.player2Name').css('color',Visualizer.config.teamColor[2])
+    $('.player1Name').html('<a href="profile.php?user_id=' + Visualizer.playerIds[0] + '">' + Visualizer.players[0] + '</a>')
+    $('.player1Name a').css({'color':Visualizer.config.teamColor[1],'text-decoration':'none'})
+    $('.player2Name').html('<a href="profile.php?user_id=' + Visualizer.playerIds[1] + '">' + Visualizer.players[1] + '</a>')
+    $('.player2Name a').css({'color':Visualizer.config.teamColor[2],'text-decoration':'none'})
     $('.playerVs').text('v.s.')
     $('title').text(Visualizer.players[0]+' v.s. '+Visualizer.players[1]+' - Planet Wars')
     
