@@ -115,17 +115,6 @@ class MyBot(BaseBot):
             return planet_to_attack.ship_count+1
         return 1000000
 
-    def get_ship_surplus(self, my_planet):
-        result = 1000000;
-        for enemy_planet in self.universe.enemy_planets:
-            distance = enemy_planet.distance(my_planet)
-            max_aid = self.max_aid_at_turn[my_planet][distance]
-            self_aid = self.planet_timeline[my_planet][distance-1][1] if self.planet_timeline[my_planet][distance-1][0] == player.ME else 0
-            my_max_aid = self.max_aid_at_turn[my_planet][distance] + self_aid
-            surplus = max(my_max_aid - max_aid, 0)
-            result = min(result, surplus)
-        return result
-
     def get_my_ships_available_to_attack_within_distance(self, planet_to_attack, max_distance):
         result = 0
         for my_planet in self.universe.my_planets:
@@ -141,7 +130,7 @@ class MyBot(BaseBot):
             if distance <= max_distance and distance > 0:
                 result.append(my_planet)
         return result
-        
+
     def doPrep(self):
         log.info("Prep phase")
 
@@ -237,8 +226,8 @@ class MyBot(BaseBot):
             self.max_aid_at_turn[planet] = {}
             for turn in range(1, self.max_distance_between_planets+1):
                 max_aid = 0
-                for enemy_planet in self.universe.all_planets:
-                #for enemy_planet in self.universe.enemy_planets:
+                #for enemy_planet in self.universe.all_planets:
+                for enemy_planet in self.universe.enemy_planets:
                     if enemy_planet.id != planet.id and planet.distance(enemy_planet) < turn:
                         enemy_planet_time_step = self.planet_timeline[enemy_planet][turn - planet.distance(enemy_planet)]
                         if (enemy_planet_time_step[0] in player.ENEMIES):
@@ -255,31 +244,6 @@ class MyBot(BaseBot):
                 self.max_aid_at_turn[planet][turn] = max_aid
                 #log.info("Max aid for %s at %s: %s" % (planet.id, turn, self.max_aid_at_turn[planet][turn]))
         #log.info("Max aid: %s" % self.max_aid_at_turn)
-
-        # For every planet, and every turn, calculate how many ships I CAN send to its aid
-        self.my_max_aid_at_turn = {}
-        for planet in self.universe.all_planets:
-            self.my_max_aid_at_turn[planet] = {}
-            for turn in range(1, self.max_distance_between_planets+1):
-                max_aid = 0
-                #for enemy_planet in self.universe.all_planets:
-                for my_planet in self.universe.my_planets:
-                    if my_planet.id != planet.id and planet.distance(my_planet) < turn:
-                        my_planet_time_step = self.planet_timeline[my_planet][turn - planet.distance(my_planet)]
-                        if (my_planet_time_step[0] == player.ME):
-                            max_aid += my_planet_time_step[1]
-                            #log.info("adding to my max aid: %s" %  my_planet_time_step[1])
-                    else:
-                        if my_planet.id != planet.id and planet.distance(my_planet) == turn:
-                            my_planet_time_step = self.planet_timeline[my_planet][0]
-                            if (my_planet_time_step[0] == player.ME):
-                                max_aid += my_planet.ship_count
-                #if self.planet_timeline[planet][turn-1][0] == player.ME:
-                    #max_aid += self.planet_timeline[planet][turn-1][1]
-                    #log.info("self aid: %s" % self.planet_timeline[planet][turn-1][1])
-                self.my_max_aid_at_turn[planet][turn] = max_aid
-                #log.info("My Max aid for %s at %s: %s" % (planet.id, turn, self.my_max_aid_at_turn[planet][turn]))
-        log.info("My Max aid: %s" % self.my_max_aid_at_turn)
 
         log.info("MY STATUS: %s/%s - %s available" % (self.my_total_ships, self.my_total_growth_rate, self.my_total_ships_available))
         log.info("ENEMY STATUS: %s/%s - %s available" % (self.enemy_total_ships, self.enemy_total_growth_rate, self.enemy_total_ships_available))
@@ -311,44 +275,25 @@ class MyBot(BaseBot):
                     if planet_to_attack_future_owner in player.ENEMIES:
                         cost_to_conquer = 0
 
-                can_hold = True
-                for turn in range(attack_distance,attack_distance+time_to_profit):
-                    max_aid = self.max_aid_at_turn[planet_to_attack][turn]
-                    my_max_aid = self.my_max_aid_at_turn[planet_to_attack][turn] - (cost_to_conquer + 1)
-                    if max_aid > my_max_aid:
-                        can_hold = False
-                        break
-                if not can_hold:
-                    continue
-
                 max_aid = self.max_aid_at_turn[planet_to_attack][attack_distance+time_to_profit]
-                my_max_aid = self.my_max_aid_at_turn[planet_to_attack][attack_distance+time_to_profit] - (cost_to_conquer + 1)
-                if planet_to_attack_future_owner in player.ENEMIES:
-                    my_max_aid = 0
-                ships_to_send = cost_to_conquer + max(max_aid - my_max_aid, 0) + 1
-                log.info("Evaluating attack of %s from %s, max %s, mymax %s, cost %s, ships %s" % (planet_to_attack, my_planet, max_aid, my_max_aid, cost_to_conquer, ships_to_send))
-                if planet_to_attack_future_owner != player.ME and ships_to_send > 0 and ships_to_send <= self.ships_available[my_planet]:
+                ships_to_send = cost_to_conquer + max_aid + 1
+                if planet_to_attack_future_owner != player.ME and ships_to_send > 0 and ships_to_send <= self.get_my_ships_available_to_attack_within_distance(planet_to_attack, attack_distance):
                     if self.planet_timeline[planet_to_attack][attack_distance-1][0] in player.ENEMIES and self.planet_timeline[planet_to_attack][attack_distance-2][0] == player.NOBODY:
                         continue
                     attack_score = (self.max_distance_between_planets - attack_distance + 40) * planet_to_attack.growth_rate
-                    if planet_to_attack_future_owner in player.ENEMIES:
-                        attack_score *= 2
-                    if planet_to_attack_future_owner in player.ENEMIES or (attack_score-cost_to_conquer) >= 140:
-                        moveSources = []
-                        ships_left_to_send = ships_to_send
-                        for source in sorted(self.get_my_planets_within_distance(planet_to_attack, attack_distance), key=lambda p : p.distance(planet_to_attack) + p.id/1000000.0):
-                            current_ships_to_send = min(self.ships_available[source], ships_left_to_send)
-                            moveSources.append(MoveSource(source, current_ships_to_send))
-                            ships_left_to_send -= current_ships_to_send
-                            if ships_left_to_send <= 0:
-                                break
-                        move = Move(planet_to_attack, moveSources, ships_to_send, attack_score)
-                        #possible_moves.append((my_planet, planet_to_attack, ships_to_send, attack_score))
-                        possible_moves.append(move)
-
+                    moveSources = []
+                    ships_left_to_send = ships_to_send
+                    for source in sorted(self.get_my_planets_within_distance(planet_to_attack, attack_distance), key=lambda p : p.distance(planet_to_attack) + p.id/1000000.0):
+                        current_ships_to_send = min(self.ships_available[source], ships_left_to_send)
+                        moveSources.append(MoveSource(source, current_ships_to_send))
+                        ships_left_to_send -= current_ships_to_send
+                        if ships_left_to_send <= 0:
+                            break
+                    move = Move(planet_to_attack, moveSources, ships_to_send, attack_score)
+                    #possible_moves.append((my_planet, planet_to_attack, ships_to_send, attack_score))
+                    possible_moves.append(move)
                     log.info("Attack score of %s from %s is: %s - %s ships" % (planet_to_attack, my_planet, attack_score, ships_to_send))
 
-        # execute the best moves
         planets_attacked = []
         sorted_moves = sorted(possible_moves, key=lambda m : m.attack_score + m.target.growth_rate/1000.0 + m.target.id/1000000.0, reverse=True)
         log.info("Best moves: %s" % len(sorted_moves))
