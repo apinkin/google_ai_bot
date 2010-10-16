@@ -107,20 +107,6 @@ class MyBot(BaseBot):
             result = min(result, surplus)
         return result
 
-    def get_neutrals_under_enemy_attack(self):
-        result = []
-        for planet in self.universe.nobodies_planets:
-            if sum( [ 1 for fleet in planet.attacking_fleets if fleet.owner in player.NOT_ME ] ) > 0:
-                result.append(planet)
-        return result
-
-    def get_neutrals_under_my_attack(self):
-        result = []
-        for planet in self.universe.nobodies_planets:
-            if sum( [ 1 for fleet in planet.attacking_fleets if fleet.owner == player.ME ] ) > 0:
-                result.append(planet)
-        return result
-
     def doPrep(self):
         log.info("Prep phase")
 
@@ -212,13 +198,12 @@ class MyBot(BaseBot):
 
         # For every planet, and every turn, calculate how many ships the enemy CAN sent to it's aid
         self.max_aid_at_turn = {}
-        enemy_planets_incl_candidates = list(self.universe.enemy_planets) + self.get_neutrals_under_enemy_attack()
         for planet in self.universe.all_planets:
             self.max_aid_at_turn[planet] = {}
             for turn in range(1, self.max_distance_between_planets+1):
                 max_aid = 0
-                #for enemy_planet in self.universe.all_planets:
-                for enemy_planet in enemy_planets_incl_candidates:
+                for enemy_planet in self.universe.all_planets:
+                #for enemy_planet in self.universe.enemy_planets:
                     if enemy_planet.id != planet.id and planet.distance(enemy_planet) < turn:
                         enemy_planet_time_step = self.planet_timeline[enemy_planet][turn - planet.distance(enemy_planet)]
                         if (enemy_planet_time_step[0] in player.ENEMIES):
@@ -238,15 +223,12 @@ class MyBot(BaseBot):
 
         # For every planet, and every turn, calculate how many ships I CAN send to its aid
         self.my_max_aid_at_turn = {}
-        #my_planets_incl_candidates = list(self.universe.my_planets) + self.get_neutrals_under_my_attack()
-        my_planets = self.universe.my_planets
         for planet in self.universe.all_planets:
             self.my_max_aid_at_turn[planet] = {}
             for turn in range(1, self.max_distance_between_planets+1):
                 max_aid = 0
                 #for enemy_planet in self.universe.all_planets:
-                #for my_planet in my_planets_incl_candidates:
-                for my_planet in my_planets:
+                for my_planet in self.universe.my_planets:
                     if my_planet.id != planet.id and planet.distance(my_planet) < turn:
                         my_planet_time_step = self.planet_timeline[my_planet][turn - planet.distance(my_planet)]
                         if (my_planet_time_step[0] == player.ME):
@@ -262,7 +244,7 @@ class MyBot(BaseBot):
                     #log.info("self aid: %s" % self.planet_timeline[planet][turn-1][1])
                 self.my_max_aid_at_turn[planet][turn] = max_aid
                 #log.info("My Max aid for %s at %s: %s" % (planet.id, turn, self.my_max_aid_at_turn[planet][turn]))
-        #log.info("My Max aid: %s" % self.my_max_aid_at_turn)
+        log.info("My Max aid: %s" % self.my_max_aid_at_turn)
 
         log.info("MY STATUS: %s/%s - %s available" % (self.my_total_ships, self.my_total_growth_rate, self.my_total_ships_available))
         log.info("ENEMY STATUS: %s/%s - %s available" % (self.enemy_total_ships, self.enemy_total_growth_rate, self.enemy_total_ships_available))
@@ -309,7 +291,7 @@ class MyBot(BaseBot):
                 if planet_to_attack_future_owner in player.ENEMIES:
                     my_max_aid = 0
                 ships_to_send = cost_to_conquer + max(max_aid - my_max_aid, 0) + 1
-                #log.info("Evaluating attack of %s from %s, max %s, mymax %s, cost %s, ships %s" % (planet_to_attack, my_planet, max_aid, my_max_aid, cost_to_conquer, ships_to_send))
+                log.info("Evaluating attack of %s from %s, max %s, mymax %s, cost %s, ships %s" % (planet_to_attack, my_planet, max_aid, my_max_aid, cost_to_conquer, ships_to_send))
                 if planet_to_attack_future_owner != player.ME and ships_to_send > 0 and ships_to_send <= self.ships_available[my_planet]:
                     if self.planet_timeline[planet_to_attack][attack_distance-1][0] in player.ENEMIES and self.planet_timeline[planet_to_attack][attack_distance-2][0] == player.NOBODY:
                         continue
@@ -318,7 +300,7 @@ class MyBot(BaseBot):
                         attack_score *= 2
                     if planet_to_attack_future_owner in player.ENEMIES or (attack_score-cost_to_conquer) >= 140:
                         possible_moves.append((my_planet, planet_to_attack, ships_to_send, attack_score))
-                    #log.info("Attack score of %s from %s is: %s - %s ships" % (planet_to_attack, my_planet, attack_score, ships_to_send))
+                    log.info("Attack score of %s from %s is: %s - %s ships" % (planet_to_attack, my_planet, attack_score, ships_to_send))
 
         # execute the best moves
         planets_attacked = []
@@ -352,12 +334,12 @@ class MyBot(BaseBot):
                 weights.append(weight)
                 profits.append(attack_score)
 
-            #log.info("weights: %s" % weights)
-            #log.info("profits: %s" % profits)
-            #log.info("available: %s" % ships_available)
+            log.info("weights: %s" % weights)
+            log.info("profits: %s" % profits)
+            log.info("available: %s" % ships_available)
 
             best_planets_to_attack = self.zeroOneKnapsack(profits,weights,ships_available)
-            #log.info("best planets: %s" % best_planets_to_attack)
+            log.info("best planets: %s" % best_planets_to_attack)
 
             sorted_moves = []
             for i in range(len(best_planets_to_attack[1])):

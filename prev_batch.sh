@@ -13,7 +13,7 @@
        maps_played=0
        
        echo "Bot: $file"
-       for i in {1..100}
+       for i in {1..10}
        do
           RES=`java -jar tools/PlayGame.jar maps/map$i.txt 10000 200 log$i.txt "python $file" "python MyBot.py" 2>&1 | tail -n 3 | grep "Turn\|Player"`
 
