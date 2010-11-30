@@ -1,1 +1,0 @@
-java -jar tools/PlayGame.jar maps/map11.txt 1000 1000 log.txt "java -jar example_bots/RandomBot.jar" "python MyBot.py" | python visualizer/visualize_localy.py
