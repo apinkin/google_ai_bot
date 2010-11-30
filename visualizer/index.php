@@ -63,8 +63,11 @@
   echo 'var data = "' . str_replace("\n", "\\n", $input) . '"';
   ?>
   </script>
-  <script src="http://planetwars.zerd.net/visualizer.js"></script>
-
+  <script src="http://72.44.46.68/visualizer.js"></script>
+  <script src="http://72.44.46.68/game_state_extractor.js"></script>
+  <p id="visualizer" style="text-align: center; width: 100%;"> 
+  	<a id="gsec" href="#" onclick="game_state_extractor(); $('#gsec').hide(); return false;">Show Game State</a> 
+  </p> 
   <!--[if lt IE 7 ]>
     <script src="js/dd_belatedpng.js?v=1"></script>
   <![endif]-->  

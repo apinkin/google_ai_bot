@@ -1,8 +1,9 @@
-BIG FAT WARNING: In the latest release self.universe.planets and universe.fleets are
-no longer dicts but also sets (to be consistent with .my_planets etc.).
-So if you are using those in your code, update it accordingly!
+This is RebelXT's submission for Google AI Challenge.
+
+See http://ai-contest.com for context.
+
+Link to my profile: http://ai-contest.com/profile.php?user_id=5853
+
+Python 2.5 or 2.6 is required.
 
 
-This is an alternative python interface to the Google AI-Contest (http://ai-contest.com).
-
-See the example bots and planetwars/universe.py and planetwars/game.py for a bit of documentation.
